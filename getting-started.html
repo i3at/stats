@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <h1>IOTLINK - Map4d</h1>
+  <div id="map" style="width:800px;height:800px;"></div>
+  <script>
+    function initMap() {
+      let options = {
+        center: [108.22690536081757, 16.072163491469226],
+        zoom: 15,
+        accessKey: "98fd21346d83bee24dc734231f7609c9"
+      }
+      let map = new map4d.Map(document.getElementById("map"), options)
+      // map.enable3dMode(true)
+    }
+  </script>
+  <script src="https://api.map4d.vn/sdk/map/js?version=1.5.00&key=98fd21346d83bee24dc734231f7609c9&callback=initMap"></script>
+
+</body>
+
+</html>

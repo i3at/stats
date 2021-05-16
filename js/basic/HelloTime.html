@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function displayTime(today) {
+                var monthShortNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                var hour = precision(today.getHours());
+                var minute = precision(today.getMinutes());
+                var second = precision(today.getSeconds());
+
+                var year = today.getFullYear();
+                var month = monthShortNames[today.getMonth()];
+                var day = today.getDate();
+                
+                var timer_str = hour + ':' + minute + ':' + second;// + ' | ' + month + ' ' + day + ', ' + year;
+                var day_str = month + ' ' + day + ', ' + year;
+
+                document.getElementById('timer').innerHTML = timer_str;
+                document.getElementById('day').innerHTML = day_str;
+            }
+            function updateTime() {
+                var today = new Date();
+                displayTime(today);
+                
+                var t = setTimeout(function() {
+                    updateTime();
+                }, 500);
+            }
+            function precision(i) 
+            {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+        </script>
+    </head>
+    <body onload="updateTime()">
+
+        <div id="timer">TIME</div>
+        <div id="day">DAY</div>
+    </body>
+</html>

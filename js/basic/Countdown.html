@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Countdown</title>
+        <script language="javascript">
+            var HOURS = 0;
+            var MINUTES = 1;
+            var SECONDS = 3;
+            var MILISECONDS = 4;
+
+            var h_timer, m_timer, s_timer, ms_timer;
+            var h, m, s, ms;
+            var is_running = false;
+            var timeout = false;
+            var interval = null;
+
+            function precision(i)  {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+
+            function correctData(type, value) {
+                if (isNaN(value) || value < 0) return 0;
+                switch (type) {
+                    case HOURS:
+                        if (value > 23) value = 23;
+                        break;
+                    case MINUTES:
+                    case SECONDS:
+                        if (value > 59) value = 59;
+                        break;
+                    default:
+                        console.log("Invalid type");
+                }
+                return value;
+            }
+
+            function updateTimer() {
+                h_timer.innerHTML = precision(h);
+                m_timer.innerHTML = precision(m);
+                s_timer.innerHTML = precision(s);
+                ms_timer.innerHTML = precision(ms);
+            }
+
+            function calculateTimer() {
+                ms--;
+
+                if (ms == -1) {
+                    ms = 99;
+                    s = s - 1;
+                }
+                if (s == -1) {
+                    s = 59;
+                    m = m - 1;
+                }
+                if (m == -1) {
+                    m = 59;
+                    h = h - 1;
+                }
+                if (h == -1) {
+                    h = m = s = ms = 0;
+                    timeout = true;
+                }
+
+                updateTimer();
+
+                if (timeout) {
+                    clearInterval(interval);
+                    is_running = false;
+                    timeout = false;
+                    setTimeout(function() {
+                        console.log("Time Out");
+                        alert("Time Out");
+                    }, 10);
+                }
+            }
+
+            function start() {
+                if (is_running) {
+                    console.log("Running");
+                    return false;
+                }
+                is_running = true;
+                var h_input = document.getElementById('h_input');
+                var m_input = document.getElementById('m_input');
+                var s_input = document.getElementById('s_input');
+                //
+                h = correctData(HOURS, parseInt(h_input.value));
+                m = correctData(MINUTES, parseInt(m_input.value));
+                s = correctData(SECONDS, parseInt(s_input.value));
+                ms = 0;
+                //
+                updateTimer();
+                //
+                interval = setInterval(calculateTimer, 10);
+            }
+             
+            function stop(){
+                if (is_running) {
+                    clearInterval(interval);
+                    is_running = false;
+                }
+            }
+
+            window.onload = function () {
+                h_timer = document.getElementById('h_timer');
+                m_timer = document.getElementById('m_timer');
+                s_timer = document.getElementById('s_timer');
+                ms_timer = document.getElementById('ms_timer');
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <strong>
+                Nhập thông tin ban đầu: <br/>
+            </strong>
+            <input type="text" id="h_input" placeholder="Giờ" value=""/>
+            <input type="text" id="m_input" placeholder="Phút" value=""/>
+            <input type="text" id="s_input" placeholder="Giây" value=""/>
+            <input type="button" value="Start" onclick="start()"/>
+            <input type="button" value="Stop" onclick="stop()"/>  <br/> <br/>
+        </div>
+         
+        <div id='h_timer' style="float:left">HH</div><div style="float:left">:</div>
+        <div id='m_timer' style="float:left">MM</div><div style="float:left">:</div>
+        <div id='s_timer' style="float:left">SS</div><div style="float:left">:</div>
+        <div id='ms_timer' style="float:left">MS</div>
+    </body>
+</html>
